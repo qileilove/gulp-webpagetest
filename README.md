@@ -1,4 +1,8 @@
-# gulp-webpagetest [![NPM Version](https://img.shields.io/npm/v/gulp-webpagetest.svg)](https://npmjs.org/package/gulp-webpagetest)
+# gulp-webpagetest
+
+[![NPM Version](https://img.shields.io/npm/v/gulp-webpagetest.svg?style=flat)](https://www.npmjs.org/package/gulp-webpagetest)
+[![NPM Downloads](https://img.shields.io/npm/dm/gulp-webpagetest.svg?style=flat)](https://www.npmjs.org/package/gulp-webpagetest)
+[![Dependencies Status](https://david-dm.org/marcelduran/gulp-webpagetest.png)](https://david-dm.org/ivangabriele/gulp-webpagetest)
 
 Gulp task for web performance analysis via WebPageTest.
 
@@ -14,8 +18,101 @@ $ npm install --save-dev gulp-babel babel-preset-es2015
 var gulp = require('gulp'),
     webpagetest = require('./tasks/webpagetest.js');
 
-gulp.task('test', webpagetest({
-  "url": "http://www.google.com",
-  "key": "YOUR_WEBPAGETEST_API_KEY"
+gulp.task('webpagetest', webpagetest({
+  url: 'http://www.google.com',
+  key: 'YOUR_WEBPAGETEST_API_KEY'
 }));
 ```
+
+### Options
+
+#### options.connectivity
+
+Type `String`
+Default value: `"Cable"`
+
+Connectivity type (DSL, Cable, FIOS, Dial, 3G, 3GFast, Native, custom).
+
+#### options.firstViewOnly
+
+Type `Boolean`
+Default value: `false`
+
+Set to `true` to skip the Repeat View test.
+
+#### options.key
+
+Type `String`
+Default value: NONE
+
+The API Key for the public instance of WebPageTest. *Not needed if using a private instance of webpagetest.*
+
+#### options.latency
+
+Type `Integer`
+Default value: `0`
+
+First-hop Round Trip Time in ms *(REQUIRES 'custom' connectivity)*.
+
+#### options.location
+
+Type `String`
+Default value: 'Dulles:Chrome'
+
+WebPageTest Location to test from.
+
+#### options.login
+
+Type `String`
+Default value: NONE
+
+User name to use for authenticated tests (HTTP authentication).
+
+#### options.packetLossRate
+
+Type `Integer`
+Default value: `0`
+
+Packet loss rate - percent of packets to drop *(REQUIRES 'custom' connectivity)*.
+
+#### options.password
+
+Type `String`
+Default value: 'Dulles:Chrome'
+
+Password to use for authenticated tests (HTTP authentication).
+
+#### options.runs
+
+Type `Integer`
+Default value: `1`
+
+Number of test runs (1-10 on the public instance).
+
+#### options.timeout
+
+Type `Integer`
+Default value: `60`
+
+Timeout (in seconds) for the tests to run.
+
+#### options.video
+
+Type `Integer`
+Default value: `1`
+
+Set to 1 to capture video (video is required for calculating Speed Index).
+
+#### options.url
+
+Type `String`
+Default value: NONE
+
+URL to be tested **(MANDATORY option)**.
+
+#### options.wptInstance
+
+Type `String`
+Default value: 'www.webpagetest.org'
+
+The WPT instance to conduct the tests with.
