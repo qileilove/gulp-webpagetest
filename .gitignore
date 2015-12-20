@@ -2,3 +2,9 @@
 
 # Dependency directory
 node_modules
+
+### gulp-webpagetest ###
+
+# Test configuration files
+
+test/config/*.json
