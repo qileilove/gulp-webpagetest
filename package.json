@@ -1,0 +1,28 @@
+{
+  "name": "gulp-webpagetest",
+  "version": "1.0.0",
+  "description": "Gulp task for web performance analysis via WebPageTest.",
+  "main": "./tasks/webpagetest.js",
+  "scripts": {
+    "test": "grunt test"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+ssh://git@github.com/ivangabriele/gulp-webpagetest.git"
+  },
+  "keywords": [
+    "webperf",
+    "perfbudget",
+    "webpagetest",
+    "performance",
+    "web",
+    "gulp",
+    "plugin"
+  ],
+  "author": "Ivan Gabriele",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/ivangabriele/gulp-webpagetest/issues"
+  },
+  "homepage": "https://github.com/ivangabriele/gulp-webpagetest#readme"
+}
