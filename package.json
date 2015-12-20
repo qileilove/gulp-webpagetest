@@ -24,5 +24,12 @@
   "bugs": {
     "url": "https://github.com/ivangabriele/gulp-webpagetest/issues"
   },
-  "homepage": "https://github.com/ivangabriele/gulp-webpagetest#readme"
+  "homepage": "https://github.com/ivangabriele/gulp-webpagetest#readme",
+  "devDependencies": {
+    "gulp": "^3.9.0"
+  },
+  "dependencies": {
+    "gulp-util": "^3.0.7",
+    "lodash": "^3.10.1"
+  }
 }
