@@ -5,8 +5,6 @@ const PLUGIN_NAME = 'gulp-webpagetest';
 var _           = require('lodash'),
     gulp        = require('gulp'),
     gutil       = require('gulp-util'),
-    PluginError = gutil.PluginError,
-    through     = require('through2'),
     WebPageTest = require('webpagetest');
 
 function prefixStream(prefixText) {
@@ -34,28 +32,28 @@ var gulpWebPageTest = function(options) {
   }
 
   /**
-   * WebPageTest API and Budget (in <budget> property) settings.
+   * WebPageTest API settings.
    * @see https://sites.google.com/a/webpagetest.org/docs/advanced-features/webpagetest-restful-apis
-   *
-   * @todo Separate API settings from Budget ones.
    * 
-   * @property {integer} authenticationType Type of authentication to use: 0 = Basic Auth, 1 = SNS. <authType> API parameter.
-   * @property {integer} bandwidthDown      Download bandwidth in Kbps (used when specifying a custom connectivity profile). <bwDown> API parameter.
-   * @property {integer} bandwidthUp        Upload bandwidth in Kbps (used when specifying a custom connectivity profile). <bwUp> API parameter.
+   * @property {integer} authenticationType Type of authentication to use: 0 = Basic Auth, 1 = SNS. <authType>
+   * @property {integer} bandwidthDown      Download bandwidth in Kbps (used when specifying a custom connectivity profile). <bwDown>
+   * @property {integer} bandwidthUp        Upload bandwidth in Kbps (used when specifying a custom connectivity profile). <bwUp>
    * @property {string}  connectivity       Connectivity type (DSL, Cable, FIOS, Dial, 3G, 3GFast, Native, custom).
-   * @property {integer} firstViewOnly      Set to 1 to skip the Repeat View test. <fvonly> API parameter.
-   * @property {integer} key                API Key. <k> API parameter.
+   * @property {boolean} firstViewOnly      Set to 1 to skip the Repeat View test. <fvonly>
+   * @property {integer} key                API Key. <k>
    * @property {integer} latency            First-hop Round Trip Time in ms (used when specifying a custom connectivity profile).
    * @property {string}  location           Location to test from.
    * @property {string}  login              User name to use for authenticated tests (http authentication).
-   * @property {integer} packetLossRate     Packet loss rate - percent of packets to drop (used when specifying a custom connectivity profile). <plr> API parameter.
+   * @property {integer} packetLossRate     Packet loss rate - percent of packets to drop (NEED 'custom' connectivity). <plr>
    * @property {string}  password           Password to use for authenticated tests (http authentication).
    * @property {integer} runs               Number of test runs (1-10 on the public instance).
+   * @property {integer} timeout            Timeout (in seconds) for the tests to run.
    * @property {string}  url                URL to be tested.
    * @property {integer} video              Set to 1 to capture video (video is required for calculating Speed Index).
+   * @property {string}  wptInstance        The WPT instance to conduct the tests with.
    */
-  var options = {
-    authenticationType: options.authenticationType    || 0,
+  var webPageTestSettings = {
+    authType:           options.authenticationType    || 0,
     bandwidthDown:      options.bandwidthDown         || '',
     bandwidthUp:        options.bandwidthUp           || '',
     connectivity:       options.connectivity          || 'Cable',
@@ -71,149 +69,107 @@ var gulpWebPageTest = function(options) {
     timeout:            options.timeout               || 60,
     url:                options.url                   || '',
     video:              options.video                 || 1,
-    wptInstance:        options.wptInstance           || 'www.webpagetest.org',
-    budget: {
-      bytesIn:          options.budget.bytesIn        || '',
-      bytesInDoc:       options.budget.bytesInDoc     || '',
-      docTime:          options.budget.docTime        || '',
-      fullyLoaded:      options.budget.fullyLoaded    || '',
-      loadTime:         options.budget.loadTime       || '',
-      render:           options.budget.render         || '1000',
-      requests:         options.budget.requests       || '',
-      requestsDoc:      options.budget.requestsDoc    || '',
-      speedIndex:       options.budget.speedIndex     || '1000',
-      visualComplete:   options.budget.visualComplete || ''
-    }
+    wptInstance:        options.wptInstance           || 'www.webpagetest.org'
   };
 
-  // label
-  // domelement
-  // private
-  // connections
-  // web10
-  // script
-  // block
-  // f
-  // r
-  // notify
-  // pingback
-  // tcpdump
-  // noopt
-  // noimages
-  // noheaders
-  // pngss
-  // iq
-  // noscript
-  // clearcerts
-  // mobile
-  // uastring
-  // width
-  // height
-  // dpr
-  // mv
-  // medianMetric
-  // cmdline
-  // htmlbody
-  // tsview_id
-  // custom
-  // tester
-  // affinity
-  // timeline
-  // timelineStack
-  // ignoreSSL
+  /**
+   * WebPageTest Budget settings.
+   * 
+   * @property {string} output The file to output the JSON results to.
+   */
+  var webPageTestBudget = {
+    bytesIn:          options.budget.bytesIn        || 0,
+    bytesInDoc:       options.budget.bytesInDoc     || 0,
+    docTime:          options.budget.docTime        || 0,
+    fullyLoaded:      options.budget.fullyLoaded    || 0,
+    loadTime:         options.budget.loadTime       || 0,
+    output:           options.budget.output         || '',
+    render:           options.budget.render         || 0,
+    requests:         options.budget.requests       || 0,
+    requestsDoc:      options.budget.requestsDoc    || 0,
+    speedIndex:       options.budget.speedIndex     || 0,
+    visualComplete:   options.budget.visualComplete || 0
+  };
 
   return function(callback) {
-    console.log(callback);
+    var processData = function(data, callback) {
+      var budgetGoalsAreReached = true,
+          median = webPageTestSettings.firstViewOnly ? data.data.median.firstView : data.data.median.repeatView,
+          medianProperty,
+          message = "";
 
-    var processData = function(data) {
-      console.log(data);
-
-      /*var budget = options.budget,
-          summary = data.data.summary,
-          median = options.repeatView ? data.data.median.repeatView : data.data.median.firstView,
-          pass = true,
-          str = "";
-
-      for (var item in budget) {
-        // make sure this is objects own property and not inherited
-        if (budget.hasOwnProperty(item)) {
-          //make sure it exists
-          if (budget[item] !== '' && median.hasOwnProperty(item)) {
-            if (median[item] > budget[item]) {
-              pass = false;
-              str += item + ': ' + median[item] + ' [FAIL]. Budget is ' + budget[item] + '\n';
-            } else {
-              str += item + ': ' + median[item] + ' [PASS]. Budget is ' + budget[item] + '\n';
-            }
-          }
+      for (medianProperty in webPageTestBudget) {
+        if (webPageTestBudget[medianProperty] && median[medianProperty] > webPageTestBudget[medianProperty]) {
+          budgetGoalsAreReached = false;
+          message += '\t' + medianProperty + ': ' + median[medianProperty] + ' \t [FAIL]. Budget is ' + webPageTestBudget[medianProperty] + '.\n';
+        } else {
+          message += medianProperty + ': ' + median[medianProperty] + ' \t [PASS]. Budget is ' + webPageTestBudget[medianProperty] + '.\n';
         }
       }
 
-      //save the file before failing or passing
-      var output = options.output;
-      if (typeof output !== 'undefined') {
-        gutil.log('Writing file: ' + output);
-        grunt.file.write(output, JSON.stringify(data));
+      if (webPageTestBudget.output) {
+        var fs = require('fs');
+
+        gutil.log('Writing file: ' + webPageTestBudget.output + '.');
+
+        fs.writeFileSync(webPageTestBudget.output, JSON.stringify(data));
       }
 
-      //
-      //output our header and results
-      if (!pass) {
-        callback(new gutil.PluginError(PLUGIN_NAME, 'Test for ' + options.url + ' \t  FAILED'));
-        callback(new gutil.PluginError(PLUGIN_NAME, str));
-        callback(new gutil.PluginError(PLUGIN_NAME, 'Summary: ' + summary));
+      if (!budgetGoalsAreReached) {
+        callback(new gutil.PluginError(PLUGIN_NAME, 'Test for ' + webPageTestSettings.url + ' \t  FAILED\n'
+                                                  + message + '\n'
+                                                  + 'Summary: ' + data.data.summary));
       } else {
-        gutil.log('\n\n-----------------------------------------------' +
-                    '\nTest for ' + options.url + ' \t  PASSED' +
-                    '\n-----------------------------------------------\n\n');
-        gutil.log(str);
-        gutil.log('Summary: ' + summary);
+        gutil.log();
+        gutil.log('-----------------------------------------------\n' +
+                + 'Test for ' + webPageTestSettings.url + ' \t  PASSED\n' +
+                + '-----------------------------------------------\n\n');
+        gutil.log();
+        gutil.log(message);
+        gutil.log('Summary: ' + data.data.summary);
+
         callback();
-      }*/
+      }
     };
 
-    var webPageTest = new WebPageTest(options.wptInstance, options.key),
-        reserved = ['key', 'budget', 'firstViewOnly', 'url', 'wptInstance'],
-        webPageTestSettings = {};
+    var webPageTest = new WebPageTest(webPageTestSettings.wptInstance, webPageTestSettings.key),
+        reserved = ['authType', 'key', 'budget', 'firstViewOnly', 'url', 'wptInstance'],
+        webPageTestOptions = {};
 
-    for (var item in options) {
-      if (reserved.indexOf(item) === -1 && options[item] !== '') {
-        webPageTestSettings[item] = options[item];
+    for (var item in webPageTestSettings) {
+      if (reserved.indexOf(item) === -1 && webPageTestSettings[item] !== '') {
+        webPageTestOptions[item] = webPageTestSettings[item];
       }
     }
 
-    webPageTest.runTest(options.url, webPageTestSettings, function(error, data) {
+    webPageTest.runTest(webPageTestSettings.url, webPageTestOptions, function(error, data) {
       if (error) {
-        var erroMessage;
+        var errorMessage;
         
         if (error.error) {
           if (error.error.code === 'TIMEOUT') {
-            erroMessage = 'Test ' + error.error.testId + ' has timed out.'
-                        + 'You can still view the results online at ' + options.wptInstance + '/results.php?test=' + error.error.testId + '.';
+            errorMessage = 'Test ' + error.error.testId + ' has timed out.'
+                         + 'You can still view the results online at ' + webPageTestSettings.wptInstance + '/results.php?test=' + error.error.testId + '.';
           } else {
-            //we'll keep this just in case
-            erroMessage = 'Test ' + error.error.testId + ' has errored. Error code: ' + error.error.code + '.';
+            errorMessage = 'Test ' + error.error.testId + ' has errored. Error code: ' + error.error.code + '.';
           }
         } else {
-          erroMessage = error.statusText || (error.code + ' ' + error.message);
+          errorMessage = error.statusText || (error.code + ' ' + error.message);
         }
 
-        cb(new gutil.PluginError(PLUGIN_NAME, erroMessage));
+        callback(new gutil.PluginError(PLUGIN_NAME, errorMessage));
       } else if (data.statusCode === 200) {
         if (data.data.successfulFVRuns <= 0) {
-          cb(new gutil.PluginError(PLUGIN_NAME, 'Test ' + data.data.testId + ' was unable to complete.'
-                                              + 'Please see ' + data.data.summary + ' for more details.'));
+          callback(new gutil.PluginError(PLUGIN_NAME, 'Test ' + data.data.testId + ' was unable to complete.'
+                                                    + 'Please see ' + data.data.summary + ' for more details.'));
         } else {
-          console.log('OK');
-
-          processData(data);
-          // callback();
+          processData(data, callback);
         }
       } else {
-        callback(new gutil.PluginError(PLUGIN_NAME, data.data.statusText));
+        callback(new gutil.PluginError(PLUGIN_NAME, data.statusText));
       }
     });
-  }
+  };
 
 };
 

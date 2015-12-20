@@ -6,5 +6,7 @@ node_modules
 ### gulp-webpagetest ###
 
 # Test configuration files
-
 test/config/*.json
+
+# Test output files
+test/output/*.json
