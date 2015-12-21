@@ -89,7 +89,7 @@ var gulpWebPageTest = function(options) {
     render:         options.budget.render         || 0,
     requests:       options.budget.requests       || 0,
     requestsDoc:    options.budget.requestsDoc    || 0,
-    speedIndex:     options.budget.speedIndex     || 0,
+    SpeedIndex:     options.budget.speedIndex     || 0,
     visualComplete: options.budget.visualComplete || 0
   };
 

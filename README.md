@@ -68,6 +68,13 @@ Default value: NONE
 
 User name to use for authenticated tests (HTTP authentication).
 
+#### options.output
+
+Type `String`
+Default value: NONE
+
+The file to output the JSON results to.
+
 #### options.packetLossRate
 
 Type `Integer`
