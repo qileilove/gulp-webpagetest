@@ -49,8 +49,8 @@ The API Key for the public instance of WebPageTest. *Not needed if using a priva
 
 #### options.latency
 
-Type `Integer`
-Default value: `0`
+Type `String`
+Default value: NONE
 
 First-hop Round Trip Time in ms *(REQUIRES 'custom' connectivity)*.
 
@@ -78,9 +78,16 @@ Packet loss rate - percent of packets to drop *(REQUIRES 'custom' connectivity)*
 #### options.password
 
 Type `String`
-Default value: 'Dulles:Chrome'
+Default value: NONE
 
 Password to use for authenticated tests (HTTP authentication).
+
+#### options.pollResults
+
+Type `Integer`
+Default value: `5`
+
+Poll for results after test is scheduled at every *n* seconds.
 
 #### options.runs
 

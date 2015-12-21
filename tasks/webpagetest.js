@@ -3,8 +3,10 @@
 const PLUGIN_NAME = 'gulp-webpagetest';
 
 var _           = require('lodash'),
+    fs          = require('fs'),
     gulp        = require('gulp'),
     gutil       = require('gulp-util'),
+    http        = require('http'),
     WebPageTest = require('webpagetest');
 
 function prefixStream(prefixText) {
@@ -51,26 +53,28 @@ var gulpWebPageTest = function(options) {
    * 
    * @property {string}  connectivity   Connectivity type (DSL, Cable, FIOS, Dial, 3G, 3GFast, Native, custom).
    * @property {boolean} firstViewOnly  Set to 1 to skip the Repeat View test. <fvonly>
-   * @property {integer} latency        First-hop Round Trip Time in ms (used when specifying a custom connectivity profile).
+   * @property {string}  latency        First-hop Round Trip Time in ms (used when specifying a custom connectivity profile).
    * @property {string}  location       Location to test from.
    * @property {string}  login          User name to use for authenticated tests (HTTP authentication).
    * @property {integer} packetLossRate Packet loss rate - percent of packets to drop (NEED 'custom' connectivity). <plr>
    * @property {string}  password       Password to use for authenticated tests (HTTP authentication).
+   * @property {string}  pollResults    Poll for results after test is scheduled at every <interval> seconds.
    * @property {integer} runs           Number of test runs (1-10 on the public instance).
    * @property {integer} timeout        Timeout (in seconds) for the tests to run.
-   * @property {integer} video          Set to 1 to capture video (video is required for calculating Speed Index).
+   * @property {boolean} video          Set to true to capture video (video is required for calculating Speed Index).
    */
   var webPageTestSettings = {
-    connectivity:       options.connectivity          || 'Cable',
-    firstViewOnly:      options.firstViewOnly         || false,
-    latency:            options.latency               || 0,
-    location:           options.location              || 'Dulles:Chrome',
-    login:              options.login                 || '',
-    packetLossRate:     options.packetLossRate        || '',
-    password:           options.password              || '',
-    runs:               options.runs                  || 1,
-    timeout:            options.timeout               || 60,
-    video:              options.video                 || 1,
+    connectivity:       options.connectivity   || 'Cable',
+    firstViewOnly:      options.firstViewOnly  || false,
+    latency:            options.latency        || '',
+    location:           options.location       || 'Dulles:Chrome',
+    login:              options.login          || '',
+    packetLossRate:     options.packetLossRate || 0,
+    pollResults:        options.pollResults    || 5,
+    password:           options.password       || '',
+    runs:               options.runs           || 1,
+    timeout:            options.timeout        || 60,
+    video:              options.video          || true,
   };
 
   /**
@@ -99,15 +103,13 @@ var gulpWebPageTest = function(options) {
       for (medianProperty in webPageTestBudget) {
         if (webPageTestBudget[medianProperty] && median[medianProperty] > webPageTestBudget[medianProperty]) {
           budgetGoalsAreReached = false;
-          message += '\t' + medianProperty + ': ' + median[medianProperty] + ' \t [FAIL]. Budget is ' + webPageTestBudget[medianProperty] + '.\n';
-        } else {
-          message += medianProperty + ': ' + median[medianProperty] + ' \t [PASS]. Budget is ' + webPageTestBudget[medianProperty] + '.\n';
+          message += '\t[FAIL] ' + medianProperty + ': ' + median[medianProperty] + '. Budget is ' + webPageTestBudget[medianProperty] + '.\n';
+        } else if (webPageTestBudget[medianProperty]) {
+          message += '\t[PASS] ' + medianProperty + ': ' + median[medianProperty] + '. Budget is ' + webPageTestBudget[medianProperty] + '.\n';
         }
       }
 
       if (output) {
-        var fs = require('fs');
-
         gutil.log('Writing file: ' + output + '.');
 
         fs.writeFileSync(output, JSON.stringify(data));
@@ -132,31 +134,31 @@ var gulpWebPageTest = function(options) {
 
     var webPageTest = new WebPageTest(wptInstance, key);
 
-    webPageTest.runTest(url, webPageTestSettings, function(error, data) {
-      if (error) {
+    return webPageTest.runTest(url, webPageTestSettings, function(responseError, response) {
+      if (responseError) {
         var errorMessage;
         
-        if (error.error) {
-          if (error.error.code === 'TIMEOUT') {
-            errorMessage = 'Test ' + error.error.testId + ' has timed out.'
-                         + 'You can still view the results online at ' + webPageTestSettings.wptInstance + '/results.php?test=' + error.error.testId + '.';
+        if (responseError.error) {
+          if (responseError.error.code === 'TIMEOUT') {
+            errorMessage = 'Test ' + responseError.error.testId + ' has timed out.'
+                         + 'You can still view the results online at ' + webPageTestSettings.wptInstance + '/results.php?test=' + responseError.error.testId + '.';
           } else {
-            errorMessage = 'Test ' + error.error.testId + ' has errored. Error code: ' + error.error.code + '.';
+            errorMessage = 'Test ' + responseError.error.testId + ' has errored. Error code: ' + responseError.error.code + '.';
           }
         } else {
-          errorMessage = error.statusText || (error.code + ' ' + error.message);
+          errorMessage = responseError.statusText || (responseError.code + ' ' + responseError.message);
         }
 
         callback(new gutil.PluginError(PLUGIN_NAME, errorMessage));
-      } else if (data.statusCode === 200) {
-        if (data.data.successfulFVRuns <= 0) {
-          callback(new gutil.PluginError(PLUGIN_NAME, 'Test ' + data.data.testId + ' was unable to complete.'
-                                                    + 'Please see ' + data.data.summary + ' for more details.'));
+      } else if (response.statusCode === 200) {
+        if (response.data.successfulFVRuns <= 0) {
+          callback(new gutil.PluginError(PLUGIN_NAME, 'Test ' + response.data.testId + ' was unable to complete.'
+                                                    + 'Please see ' + response.data.summary + ' for more details.'));
         } else {
-          processData(data, callback);
+          processData(response, callback);
         }
       } else {
-        callback(new gutil.PluginError(PLUGIN_NAME, data.statusText));
+        callback(new gutil.PluginError(PLUGIN_NAME, response.statusText));
       }
     });
   };
