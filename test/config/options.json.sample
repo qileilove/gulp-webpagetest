@@ -1,10 +1,10 @@
 {
   "url": "http://www.google.com",
-  "key": "YOUR_WEBPAGETEST_API_KEY",
+  "key": "A.aa95524170bf054c97494ebd4618e2a1", // Please DO ONLY use this key as a contributor
   "location": "ec2-eu-west-1:Chrome",
   "output": "test/output/results.json",
   "timeout": 600,
   "budget": {
-    "SpeedIndex": 1000
+    "SpeedIndex": 5000
   }
 }
