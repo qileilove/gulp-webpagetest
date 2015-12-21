@@ -116,13 +116,13 @@ var gulpWebPageTest = function(options) {
       }
 
       if (!budgetGoalsAreReached) {
-        callback(new gutil.PluginError(PLUGIN_NAME, 'Test for ' + webPageTestSettings.url + ' \t  FAILED\n'
+        callback(new gutil.PluginError(PLUGIN_NAME, 'Test for ' + url + ' \t  FAILED\n'
                                                   + message + '\n'
                                                   + 'Summary: ' + data.data.summary));
       } else {
         gutil.log();
         gutil.log('-----------------------------------------------\n' +
-                + 'Test for ' + webPageTestSettings.url + ' \t  PASSED\n' +
+                + 'Test for ' + url + ' \t  PASSED\n' +
                 + '-----------------------------------------------\n\n');
         gutil.log();
         gutil.log(message);
@@ -141,7 +141,7 @@ var gulpWebPageTest = function(options) {
         if (responseError.error) {
           if (responseError.error.code === 'TIMEOUT') {
             errorMessage = 'Test ' + responseError.error.testId + ' has timed out.'
-                         + 'You can still view the results online at ' + webPageTestSettings.wptInstance + '/results.php?test=' + responseError.error.testId + '.';
+                         + 'You can still view the results online at ' + wptInstance + '/results.php?test=' + responseError.error.testId + '.';
           } else {
             errorMessage = 'Test ' + responseError.error.testId + ' has errored. Error code: ' + responseError.error.code + '.';
           }
