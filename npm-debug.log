@@ -1,54 +1,108 @@
 0 info it worked if it ends with ok
 1 verbose cli [ 'C:\\Program Files\\nodejs\\node.exe',
 1 verbose cli   'C:\\Program Files\\nodejs\\node_modules\\npm\\bin\\npm-cli.js',
-1 verbose cli   'uninstall',
-1 verbose cli   'jquery',
-1 verbose cli   '--save' ]
+1 verbose cli   'publish' ]
 2 info using npm@3.3.12
 3 info using node@v5.3.0
-4 silly loadCurrentTree Starting
-5 silly install loadCurrentTree
-6 silly install readLocalPackageData
-7 silly install normalizeTree
-8 silly loadCurrentTree Finishing
-9 silly loadIdealTree Starting
-10 silly install loadIdealTree
-11 silly cloneCurrentTree Starting
-12 silly install cloneCurrentTreeToIdealTree
-13 silly cloneCurrentTree Finishing
-14 silly loadShrinkwrap Starting
-15 silly install loadShrinkwrap
-16 silly loadShrinkwrap Finishing
-17 silly loadAllDepsIntoIdealTree Starting
-18 silly uninstall loadAllDepsIntoIdealtree
-19 verbose stack Error: Missing required argument #3
-19 verbose stack     at replaceModule (C:\Program Files\nodejs\node_modules\npm\lib\install\deps.js:427:3)
-19 verbose stack     at C:\Program Files\nodejs\node_modules\npm\lib\install\deps.js:236:7
-19 verbose stack     at Array.forEach (native)
-19 verbose stack     at exports.removeDeps (C:\Program Files\nodejs\node_modules\npm\lib\install\deps.js:232:8)
-19 verbose stack     at Array.<anonymous> (C:\Program Files\nodejs\node_modules\npm\node_modules\slide\lib\bind-actor.js:15:8)
-19 verbose stack     at LOOP (C:\Program Files\nodejs\node_modules\npm\node_modules\slide\lib\chain.js:15:14)
-19 verbose stack     at chain (C:\Program Files\nodejs\node_modules\npm\node_modules\slide\lib\chain.js:20:5)
-19 verbose stack     at Uninstaller.loadAllDepsIntoIdealTree (C:\Program Files\nodejs\node_modules\npm\lib\uninstall.js:72:3)
-19 verbose stack     at Array.<anonymous> (C:\Program Files\nodejs\node_modules\npm\node_modules\slide\lib\bind-actor.js:15:8)
-19 verbose stack     at LOOP (C:\Program Files\nodejs\node_modules\npm\node_modules\slide\lib\chain.js:15:14)
-20 verbose cwd C:\Users\ivang\Workspace\Temp\gulp-webpagetest
-21 error Windows_NT 10.0.10586
-22 error argv "C:\\Program Files\\nodejs\\node.exe" "C:\\Program Files\\nodejs\\node_modules\\npm\\bin\\npm-cli.js" "uninstall" "jquery" "--save"
-23 error node v5.3.0
-24 error npm  v3.3.12
-25 error code EMISSINGARG
-26 error typeerror Error: Missing required argument #3
-26 error typeerror     at replaceModule (C:\Program Files\nodejs\node_modules\npm\lib\install\deps.js:427:3)
-26 error typeerror     at C:\Program Files\nodejs\node_modules\npm\lib\install\deps.js:236:7
-26 error typeerror     at Array.forEach (native)
-26 error typeerror     at exports.removeDeps (C:\Program Files\nodejs\node_modules\npm\lib\install\deps.js:232:8)
-26 error typeerror     at Array.<anonymous> (C:\Program Files\nodejs\node_modules\npm\node_modules\slide\lib\bind-actor.js:15:8)
-26 error typeerror     at LOOP (C:\Program Files\nodejs\node_modules\npm\node_modules\slide\lib\chain.js:15:14)
-26 error typeerror     at chain (C:\Program Files\nodejs\node_modules\npm\node_modules\slide\lib\chain.js:20:5)
-26 error typeerror     at Uninstaller.loadAllDepsIntoIdealTree (C:\Program Files\nodejs\node_modules\npm\lib\uninstall.js:72:3)
-26 error typeerror     at Array.<anonymous> (C:\Program Files\nodejs\node_modules\npm\node_modules\slide\lib\bind-actor.js:15:8)
-26 error typeerror     at LOOP (C:\Program Files\nodejs\node_modules\npm\node_modules\slide\lib\chain.js:15:14)
-26 error typeerror This is an error with npm itself. Please report this error at:
-26 error typeerror     <http://github.com/npm/npm/issues>
-27 verbose exit [ 1, true ]
+4 verbose publish [ '.' ]
+5 silly cache add args [ '.', null ]
+6 verbose cache add spec .
+7 silly cache add parsed spec Result {
+7 silly cache add   raw: '.',
+7 silly cache add   scope: null,
+7 silly cache add   name: null,
+7 silly cache add   rawSpec: '.',
+7 silly cache add   spec: 'c:\\Users\\ivang\\Workspace\\Temp\\gulp-webpagetest',
+7 silly cache add   type: 'directory' }
+8 verbose addLocalDirectory C:\Users\ivang\AppData\Roaming\npm-cache\gulp-webpagetest\1.0.0\package.tgz not in flight; packing
+9 info lifecycle gulp-webpagetest@1.0.0~prepublish: gulp-webpagetest@1.0.0
+10 silly lifecycle gulp-webpagetest@1.0.0~prepublish: no script for prepublish, continuing
+11 verbose tar pack [ 'C:\\Users\\ivang\\AppData\\Roaming\\npm-cache\\gulp-webpagetest\\1.0.0\\package.tgz',
+11 verbose tar pack   'c:\\Users\\ivang\\Workspace\\Temp\\gulp-webpagetest' ]
+12 verbose tarball C:\Users\ivang\AppData\Roaming\npm-cache\gulp-webpagetest\1.0.0\package.tgz
+13 verbose folder c:\Users\ivang\Workspace\Temp\gulp-webpagetest
+14 verbose addLocalTarball adding from inside cache C:\Users\ivang\AppData\Roaming\npm-cache\gulp-webpagetest\1.0.0\package.tgz
+15 silly cache afterAdd gulp-webpagetest@1.0.0
+16 verbose afterAdd C:\Users\ivang\AppData\Roaming\npm-cache\gulp-webpagetest\1.0.0\package\package.json not in flight; writing
+17 verbose afterAdd C:\Users\ivang\AppData\Roaming\npm-cache\gulp-webpagetest\1.0.0\package\package.json written
+18 silly publish { name: 'gulp-webpagetest',
+18 silly publish   version: '1.0.0',
+18 silly publish   description: 'Gulp task for web performance analysis via WebPageTest.',
+18 silly publish   main: './tasks/webpagetest.js',
+18 silly publish   scripts: { test: 'gulp test' },
+18 silly publish   repository:
+18 silly publish    { type: 'git',
+18 silly publish      url: 'git+ssh://git@github.com/ivangabriele/gulp-webpagetest.git' },
+18 silly publish   keywords:
+18 silly publish    [ 'webperf',
+18 silly publish      'perfbudget',
+18 silly publish      'webpagetest',
+18 silly publish      'performance',
+18 silly publish      'web',
+18 silly publish      'gulp',
+18 silly publish      'plugin' ],
+18 silly publish   author: { name: 'Ivan Gabriele' },
+18 silly publish   license: 'MIT',
+18 silly publish   bugs: { url: 'https://github.com/ivangabriele/gulp-webpagetest/issues' },
+18 silly publish   homepage: 'https://github.com/ivangabriele/gulp-webpagetest#readme',
+18 silly publish   devDependencies: { gulp: '^3.9.0' },
+18 silly publish   dependencies:
+18 silly publish    { 'gulp-util': '^3.0.7',
+18 silly publish      lodash: '^3.10.1',
+18 silly publish      webpagetest: '^0.3.3' },
+18 silly publish   readme: '# gulp-webpagetest\r\n\r\n[![NPM Version](https://img.shields.io/npm/v/gulp-webpagetest.svg?style=flat)](https://www.npmjs.org/package/gulp-webpagetest)\r\n[![NPM Downloads](https://img.shields.io/npm/dm/gulp-webpagetest.svg?style=flat)](https://www.npmjs.org/package/gulp-webpagetest)\r\n[![Dependencies Status](https://david-dm.org/marcelduran/gulp-webpagetest.png)](https://david-dm.org/ivangabriele/gulp-webpagetest)\r\n\r\nGulp task for web performance analysis via WebPageTest.\r\n\r\n## Install\r\n\r\n```\r\n$ npm install --save-dev gulp-babel babel-preset-es2015\r\n```\r\n\r\n## Usage\r\n\r\n```js\r\nvar gulp = require(\'gulp\'),\r\n    webpagetest = require(\'./tasks/webpagetest.js\');\r\n\r\ngulp.task(\'webpagetest\', webpagetest({\r\n  url: \'http://www.google.com\',\r\n  key: \'YOUR_WEBPAGETEST_API_KEY\'\r\n}));\r\n```\r\n\r\n### Options\r\n\r\n#### options.connectivity\r\n\r\nType `String`\r\nDefault value: `"Cable"`\r\n\r\nConnectivity type (DSL, Cable, FIOS, Dial, 3G, 3GFast, Native, custom).\r\n\r\n#### options.firstViewOnly\r\n\r\nType `Boolean`\r\nDefault value: `false`\r\n\r\nSet to `true` to skip the Repeat View test.\r\n\r\n#### options.key\r\n\r\nType `String`\r\nDefault value: NONE\r\n\r\nThe API Key for the public instance of WebPageTest. *Not needed if using a private instance of webpagetest.*\r\n\r\n#### options.latency\r\n\r\nType `String`\r\nDefault value: NONE\r\n\r\nFirst-hop Round Trip Time in ms *(REQUIRES \'custom\' connectivity)*.\r\n\r\n#### options.location\r\n\r\nType `String`\r\nDefault value: \'Dulles:Chrome\'\r\n\r\nWebPageTest Location to test from.\r\n\r\n#### options.login\r\n\r\nType `String`\r\nDefault value: NONE\r\n\r\nUser name to use for authenticated tests (HTTP authentication).\r\n\r\n#### options.output\r\n\r\nType `String`\r\nDefault value: NONE\r\n\r\nThe file to output the JSON results to.\r\n\r\n#### options.packetLossRate\r\n\r\nType `Integer`\r\nDefault value: `0`\r\n\r\nPacket loss rate - percent of packets to drop *(REQUIRES \'custom\' connectivity)*.\r\n\r\n#### options.password\r\n\r\nType `String`\r\nDefault value: NONE\r\n\r\nPassword to use for authenticated tests (HTTP authentication).\r\n\r\n#### options.pollResults\r\n\r\nType `Integer`\r\nDefault value: `5`\r\n\r\nPoll for results after test is scheduled at every *n* seconds.\r\n\r\n#### options.runs\r\n\r\nType `Integer`\r\nDefault value: `1`\r\n\r\nNumber of test runs (1-10 on the public instance).\r\n\r\n#### options.timeout\r\n\r\nType `Integer`\r\nDefault value: `60`\r\n\r\nTimeout (in seconds) for the tests to run.\r\n\r\n#### options.video\r\n\r\nType `Integer`\r\nDefault value: `1`\r\n\r\nSet to 1 to capture video (video is required for calculating Speed Index).\r\n\r\n#### options.url\r\n\r\nType `String`\r\nDefault value: NONE\r\n\r\nURL to be tested **(MANDATORY option)**.\r\n\r\n#### options.wptInstance\r\n\r\nType `String`\r\nDefault value: \'www.webpagetest.org\'\r\n\r\nThe WPT instance to conduct the tests with.\r\n',
+18 silly publish   readmeFilename: 'README.md',
+18 silly publish   gitHead: '937025649d6be1a0e3b3331422789ea04f6dfdcf',
+18 silly publish   _id: 'gulp-webpagetest@1.0.0',
+18 silly publish   _shasum: '3a8b06c0c9c56fa1e10e31ee282041e021091ef2',
+18 silly publish   _from: '.' }
+19 verbose getPublishConfig undefined
+20 silly mapToRegistry name gulp-webpagetest
+21 silly mapToRegistry using default registry
+22 silly mapToRegistry registry https://registry.npmjs.org/
+23 silly mapToRegistry uri https://registry.npmjs.org/gulp-webpagetest
+24 verbose publish registryBase https://registry.npmjs.org/
+25 silly publish uploading C:\Users\ivang\AppData\Roaming\npm-cache\gulp-webpagetest\1.0.0\package.tgz
+26 verbose request uri https://registry.npmjs.org/gulp-webpagetest
+27 verbose request sending authorization for write operation
+28 info attempt registry request try #1 at 2:26:14 AM
+29 verbose request using bearer token for auth
+30 verbose request id 6a03c9469a4a612c
+31 http request PUT https://registry.npmjs.org/gulp-webpagetest
+32 http 403 https://registry.npmjs.org/gulp-webpagetest
+33 verbose headers { 'content-type': 'application/json',
+33 verbose headers   'cache-control': 'max-age=300',
+33 verbose headers   'content-length': '95',
+33 verbose headers   'accept-ranges': 'bytes',
+33 verbose headers   date: 'Mon, 21 Dec 2015 01:26:21 GMT',
+33 verbose headers   via: '1.1 varnish',
+33 verbose headers   connection: 'keep-alive',
+33 verbose headers   'x-served-by': 'cache-fra1230-FRA',
+33 verbose headers   'x-cache': 'MISS',
+33 verbose headers   'x-cache-hits': '0',
+33 verbose headers   'x-timer': 'S1450661179.544396,VS0,VE1917' }
+34 verbose request invalidating C:\Users\ivang\AppData\Roaming\npm-cache\registry.npmjs.org\gulp-webpagetest on PUT
+35 error publish Failed PUT 403
+36 verbose stack Error: "You cannot publish over the previously published version 1.0.0." : gulp-webpagetest
+36 verbose stack     at makeError (C:\Program Files\nodejs\node_modules\npm\node_modules\npm-registry-client\lib\request.js:264:12)
+36 verbose stack     at CachingRegistryClient.<anonymous> (C:\Program Files\nodejs\node_modules\npm\node_modules\npm-registry-client\lib\request.js:252:14)
+36 verbose stack     at Request._callback (C:\Program Files\nodejs\node_modules\npm\node_modules\npm-registry-client\lib\request.js:172:14)
+36 verbose stack     at Request.self.callback (C:\Program Files\nodejs\node_modules\npm\node_modules\request\request.js:198:22)
+36 verbose stack     at emitTwo (events.js:87:13)
+36 verbose stack     at Request.emit (events.js:172:7)
+36 verbose stack     at Request.<anonymous> (C:\Program Files\nodejs\node_modules\npm\node_modules\request\request.js:1082:10)
+36 verbose stack     at emitOne (events.js:82:20)
+36 verbose stack     at Request.emit (events.js:169:7)
+36 verbose stack     at IncomingMessage.<anonymous> (C:\Program Files\nodejs\node_modules\npm\node_modules\request\request.js:1009:12)
+37 verbose statusCode 403
+38 verbose pkgid gulp-webpagetest
+39 verbose cwd c:\Users\ivang\Workspace\Temp\gulp-webpagetest
+40 error Windows_NT 10.0.10586
+41 error argv "C:\\Program Files\\nodejs\\node.exe" "C:\\Program Files\\nodejs\\node_modules\\npm\\bin\\npm-cli.js" "publish"
+42 error node v5.3.0
+43 error npm  v3.3.12
+44 error code E403
+45 error "You cannot publish over the previously published version 1.0.0." : gulp-webpagetest
+46 error If you need help, you may report this error at:
+46 error     <https://github.com/npm/npm/issues>
+47 verbose exit [ 1, true ]
