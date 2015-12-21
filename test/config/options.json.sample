@@ -1,6 +1,6 @@
 {
   "url": "http://www.google.com",
-  "key": "A.aa95524170bf054c97494ebd4618e2a1",
+  "key": "A.5234c0978c6411ecd6726c1a53133e05",
   "location": "ec2-eu-west-1:Chrome",
   "output": "test/output/results.json",
   "timeout": 600,
