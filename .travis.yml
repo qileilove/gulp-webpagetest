@@ -7,3 +7,4 @@ node_js:
 
 before_install:
     - cp test/config/options.json.sample test/config/options.json
+    - perl -pi -e "s/WEBPAGETEST_API_KEY/$WEBPAGETEST_API_KEY/g" test/config/options.json
