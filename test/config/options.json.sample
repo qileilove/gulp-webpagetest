@@ -1,6 +1,6 @@
 {
   "url": "http://www.google.com",
-  "key": "A.5234c0978c6411ecd6726c1a53133e05",
+  "key": "WEBPAGETEST_API_KEY",
   "location": "ec2-eu-west-1:Chrome",
   "output": "test/output/results.json",
   "timeout": 1800,
