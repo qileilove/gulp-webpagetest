@@ -96,7 +96,7 @@ var gulpWebPageTest = function(options) {
       var budgetGoalsAreReached = true,
           median = webPageTestSettings.firstViewOnly ? data.data.median.firstView : data.data.median.repeatView,
           medianProperty,
-          message = "";
+          message = '';
 
       for (medianProperty in webPageTestBudget) {
         if (webPageTestBudget[medianProperty] && median[medianProperty] > webPageTestBudget[medianProperty]) {
@@ -114,14 +114,14 @@ var gulpWebPageTest = function(options) {
       }
 
       if (!budgetGoalsAreReached) {
-        callback(new gutil.PluginError(PLUGIN_NAME, 'Test for ' + url + ' \t  FAILED\n'
-                                                  + message + '\n'
-                                                  + 'Summary: ' + data.data.summary));
+        callback(new gutil.PluginError(PLUGIN_NAME, 'Test for ' + url + ' \t  FAILED\n' +
+                                                    message + '\n' +
+                                                    'Summary: ' + data.data.summary));
       } else {
         gutil.log();
         gutil.log('-----------------------------------------------\n' +
-                + 'Test for ' + url + ' \t  PASSED\n' +
-                + '-----------------------------------------------\n\n');
+                  'Test for ' + url + ' \t  PASSED\n' +
+                  '-----------------------------------------------\n\n');
         gutil.log();
         gutil.log(message);
         gutil.log('Summary: ' + data.data.summary);
@@ -138,8 +138,8 @@ var gulpWebPageTest = function(options) {
         
         if (responseError.error) {
           if (responseError.error.code === 'TIMEOUT') {
-            errorMessage = 'Test ' + responseError.error.testId + ' has timed out.'
-                         + 'You can still view the results online at ' + wptInstance + '/results.php?test=' + responseError.error.testId + '.';
+            errorMessage = 'Test ' + responseError.error.testId + ' has timed out.' +
+                           'You can still view the results online at ' + wptInstance + '/results.php?test=' + responseError.error.testId + '.';
           } else {
             errorMessage = 'Test ' + responseError.error.testId + ' has errored. Error code: ' + responseError.error.code + '.';
           }
@@ -150,8 +150,8 @@ var gulpWebPageTest = function(options) {
         callback(new gutil.PluginError(PLUGIN_NAME, errorMessage));
       } else if (response.statusCode === 200) {
         if (response.data.successfulFVRuns <= 0) {
-          callback(new gutil.PluginError(PLUGIN_NAME, 'Test ' + response.data.testId + ' was unable to complete.'
-                                                    + 'Please see ' + response.data.summary + ' for more details.'));
+          callback(new gutil.PluginError(PLUGIN_NAME, 'Test ' + response.data.testId + ' was unable to complete.' +
+                                                      'Please see ' + response.data.summary + ' for more details.'));
         } else {
           processData(response, callback);
         }
