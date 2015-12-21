@@ -1,5 +1,3 @@
-'use strict';
-
 const PLUGIN_NAME = 'gulp-webpagetest';
 
 var _           = require('lodash'),
