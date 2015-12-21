@@ -1,10 +1,10 @@
 {
   "url": "http://www.google.com",
-  "key": "YOUR_WEBPAGETEST_API_KEY"
+  "key": "YOUR_WEBPAGETEST_API_KEY",
   "location": "ec2-eu-west-1:Chrome",
   "output": "test/output/results.json",
   "timeout": 600,
   "budget": {
-    "speedIndex": 1000
+    "SpeedIndex": 1000
   }
 }
