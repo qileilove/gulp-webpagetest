@@ -1,5 +1,6 @@
 # gulp-webpagetest
 
+[![Build Status](https://travis-ci.org/ivangabriele/gulp-webpagetest.svg?branch=master)](https://travis-ci.org/ivangabriele/gulp-webpagetest)
 [![NPM Version](https://img.shields.io/npm/v/gulp-webpagetest.svg?style=flat)](https://www.npmjs.org/package/gulp-webpagetest)
 [![NPM Downloads](https://img.shields.io/npm/dm/gulp-webpagetest.svg?style=flat)](https://www.npmjs.org/package/gulp-webpagetest)
 [![Dependencies Status](https://david-dm.org/marcelduran/gulp-webpagetest.png)](https://david-dm.org/ivangabriele/gulp-webpagetest)
