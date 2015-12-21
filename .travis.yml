@@ -10,4 +10,4 @@ node_js:
     - "iojs"
 
 before_install:
-    - copy test/config/options.json.sample test/config/options.json
+    - cp test/config/options.json.sample test/config/options.json
