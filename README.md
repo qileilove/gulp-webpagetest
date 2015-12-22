@@ -4,6 +4,7 @@
 [![NPM Version](https://img.shields.io/npm/v/gulp-webpagetest.svg?style=flat)](https://www.npmjs.org/package/gulp-webpagetest)
 [![NPM Downloads](https://img.shields.io/npm/dm/gulp-webpagetest.svg?style=flat)](https://www.npmjs.org/package/gulp-webpagetest)
 [![Dependency Status](https://david-dm.org/ivangabriele/gulp-webpagetest.svg)](https://david-dm.org/ivangabriele/gulp-webpagetest)
+[![devDependency Status](https://david-dm.org/ivangabriele/gulp-webpagetest/dev-status.svg)](https://david-dm.org/ivangabriele/gulp-webpagetest#info=devDependencies)
 
 Gulp task for web performance analysis via WebPageTest.
 
