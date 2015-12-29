@@ -77,18 +77,131 @@ var gulpWebPageTest = function(options) {
 
   /**
    * WebPageTest Budget settings.
+   *
+   * @todo What to do with isResponsive ?
+   * 
+   * @property {integer} adult_site
+   * @property {integer} aft
+   * @property {integer} bytesIn
+   * @property {integer} bytesInDoc
+   * @property {integer} bytesOut
+   * @property {integer} bytesOutDoc
+   * @property {integer} cached
+   * @property {integer} connections
+   * @property {integer} date
+   * @property {integer} docCPUms
+   * @property {integer} docCPUpct
+   * @property {integer} docTime
+   * @property {integer} domContentLoadedEventEnd
+   * @property {integer} domContentLoadedEventStart
+   * @property {integer} domElements
+   * @property {integer} domTime
+   * @property {integer} effectiveBps
+   * @property {integer} effectiveBpsDoc
+   * @property {integer} firstPaint
+   * @property {integer} fixed_viewport
+   * @property {integer} fullyLoaded
+   * @property {integer} fullyLoadedCPUms
+   * @property {integer} fullyLoadedCPUpct
+   * @property {integer} gzip_savings
+   * @property {integer} gzip_total
+   * @property {integer} image_savings
+   * @property {integer} image_total
+   * @property {integer} isResponsive               DISABLED
+   * @property {integer} lastVisualChange
+   * @property {integer} loadEventEnd
+   * @property {integer} loadEventStart
+   * @property {integer} loadTime
+   * @property {integer} minify_savings
+   * @property {integer} minify_total
+   * @property {integer} optimization_checked
+   * @property {integer} render
+   * @property {array}   requests                   DISABLED
+   * @property {integer} requestsDoc
+   * @property {integer} requestsFull
+   * @property {integer} responses_200
+   * @property {integer} responses_404
+   * @property {integer} responses_other
+   * @property {integer} result
+   * @property {integer} run
+   * @property {integer} score_cache
+   * @property {integer} score_cdn
+   * @property {integer} score_combine
+   * @property {integer} score_compress
+   * @property {integer} score_cookies
+   * @property {integer} score_etags
+   * @property {integer} score_gzip
+   * @property {integer} score_keep-alive
+   * @property {integer} score_minify
+   * @property {integer} score_progressive_jpeg
+   * @property {integer} server_count
+   * @property {integer} server_rtt
+   * @property {integer} SpeedIndex
+   * @property {integer} titleTime
+   * @property {integer} TTFB
+   * @property {array}   videoFrames                DISABLED
+   * @property {integer} visualComplete
    */
   var webPageTestBudget = {
-    bytesIn:        options.budget.bytesIn        || 0,
-    bytesInDoc:     options.budget.bytesInDoc     || 0,
-    docTime:        options.budget.docTime        || 0,
-    fullyLoaded:    options.budget.fullyLoaded    || 0,
-    loadTime:       options.budget.loadTime       || 0,
-    render:         options.budget.render         || 0,
-    // requests:       options.budget.requests       || 0, (this is an array of objects !)
-    requestsDoc:    options.budget.requestsDoc    || 0,
-    SpeedIndex:     options.budget.speedIndex     || 0,
-    visualComplete: options.budget.visualComplete || 0
+    adult_site:                 options.budget.adult_site || 0,
+    aft:                        options.budget.aft || 0,
+    bytesIn:                    options.budget.bytesIn || 0,
+    bytesInDoc:                 options.budget.bytesInDoc || 0,
+    bytesOut:                   options.budget.bytesOut || 0,
+    bytesOutDoc:                options.budget.bytesOutDoc || 0,
+    cached:                     options.budget.cached || 0,
+    connections:                options.budget.connections || 0,
+    date:                       options.budget.date || 0,
+    docCPUms:                   options.budget.docCPUms || 0,
+    docCPUpct:                  options.budget.docCPUpct || 0,
+    docTime:                    options.budget.docTime || 0,
+    domContentLoadedEventEnd:   options.budget.domContentLoadedEventEnd || 0,
+    domContentLoadedEventStart: options.budget.domContentLoadedEventStart || 0,
+    domElements:                options.budget.domElements || 0,
+    domTime:                    options.budget.domTime || 0,
+    effectiveBps:               options.budget.effectiveBps || 0,
+    effectiveBpsDoc:            options.budget.effectiveBpsDoc || 0,
+    firstPaint:                 options.budget.firstPaint || 0,
+    fixed_viewport:             options.budget.fixed_viewport || 0,
+    fullyLoaded:                options.budget.fullyLoaded || 0,
+    fullyLoadedCPUms:           options.budget.fullyLoadedCPUms || 0,
+    fullyLoadedCPUpct:          options.budget.fullyLoadedCPUpct || 0,
+    gzip_savings:               options.budget.gzip_savings || 0,
+    gzip_total:                 options.budget.gzip_total || 0,
+    image_savings:              options.budget.image_savings || 0,
+    image_total:                options.budget.image_total || 0,
+    // isResponsive:               options.budget.isResponsive || -1,
+    lastVisualChange:           options.budget.lastVisualChange || 0,
+    loadEventEnd:               options.budget.loadEventEnd || 0,
+    loadEventStart:             options.budget.loadEventStart || 0,
+    loadTime:                   options.budget.loadTime || 0,
+    minify_savings:             options.budget.minify_savings || 0,
+    minify_total:               options.budget.minify_total || 0,
+    optimization_checked:       options.budget.optimization_checked || 0,
+    render:                     options.budget.render || 0,
+    requestsDoc:                options.budget.requestsDoc || 0,
+    requestsFull:               options.budget.requestsFull || 0,
+    responses_200:              options.budget.responses_200 || 0,
+    responses_404:              options.budget.responses_404 || 0,
+    responses_other:            options.budget.responses_other || 0,
+    result:                     options.budget.result || 0,
+    run:                        options.budget.run || 0,
+    score_cache:                options.budget.score_cache || 0,
+    score_cdn:                  options.budget.score_cdn || 0,
+    score_combine:              options.budget.score_combine || 0,
+    score_compress:             options.budget.score_compress || 0,
+    score_cookies:              options.budget.score_cookies || 0,
+    score_etags:                options.budget.score_etags || 0,
+    score_gzip:                 options.budget.score_gzip || 0,
+    score_keep-alive:           options.budget.score_keep-alive || 0,
+    score_minify:               options.budget.score_minify || 0,
+    score_progressive_jpeg:     options.budget.score_progressive_jpeg || 0,
+    server_count:               options.budget.server_count || 0,
+    server_rtt:                 options.budget.server_rtt || 0,
+    SpeedIndex:                 options.budget.SpeedIndex || 0,
+    titleTime:                  options.budget.titleTime || 0,
+    TTFB:                       options.budget.TTFB || 0,
+    visualComplete:             options.budget.visualComplete || 0
   };
   
   return function(callback) {
