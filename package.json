@@ -29,6 +29,7 @@
     "gulp": "^3.9.0"
   },
   "dependencies": {
+    "chalk": "^1.1.1",
     "gulp-util": "^3.0.7",
     "lodash": "^3.10.1",
     "webpagetest": "^0.3.3"

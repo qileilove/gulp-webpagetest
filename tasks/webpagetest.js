@@ -1,6 +1,7 @@
 const PLUGIN_NAME = 'gulp-webpagetest';
 
 var _           = require('lodash'),
+    chalk       = require('chalk'),
     fs          = require('fs'),
     gulp        = require('gulp'),
     gutil       = require('gulp-util'),
@@ -14,7 +15,6 @@ function prefixStream(prefixText) {
 }
 
 var gulpWebPageTest = function(options) {
-  
   if (!options) {
     throw new gutil.PluginError(PLUGIN_NAME, 'When calling webpagetest(options), options parameter is MANDATORY.');
   }
@@ -85,49 +85,51 @@ var gulpWebPageTest = function(options) {
     fullyLoaded:    options.budget.fullyLoaded    || 0,
     loadTime:       options.budget.loadTime       || 0,
     render:         options.budget.render         || 0,
-    requests:       options.budget.requests       || 0,
+    // requests:       options.budget.requests       || 0, (this is an array of objects !)
     requestsDoc:    options.budget.requestsDoc    || 0,
     SpeedIndex:     options.budget.speedIndex     || 0,
     visualComplete: options.budget.visualComplete || 0
   };
-
+  
   return function(callback) {
     var processData = function(data, callback) {
       var budgetGoalsAreReached = true,
           median = webPageTestSettings.firstViewOnly ? data.data.median.firstView : data.data.median.repeatView,
           medianProperty,
-          message = '';
+          budgetMessages = '';
 
       for (medianProperty in webPageTestBudget) {
-        if (webPageTestBudget[medianProperty] && median[medianProperty] > webPageTestBudget[medianProperty]) {
+        if (!webPageTestBudget[medianProperty]) {
+          budgetMessages += '\n' + chalk.gray('[--]');
+        } else if (median[medianProperty] > webPageTestBudget[medianProperty]) {
           budgetGoalsAreReached = false;
-          message += '\t[FAIL] ' + medianProperty + ': ' + median[medianProperty] + '. Budget is ' + webPageTestBudget[medianProperty] + '.\n';
+          budgetMessages += chalk.red('[KO]');
         } else if (webPageTestBudget[medianProperty]) {
-          message += '\t[PASS] ' + medianProperty + ': ' + median[medianProperty] + '. Budget is ' + webPageTestBudget[medianProperty] + '.\n';
+          budgetMessages += chalk.green('[OK]');
+        }
+
+        budgetMessages += ' ' + medianProperty + ': ' + median[medianProperty];
+        if (webPageTestBudget[medianProperty]) {
+          budgetMessages += ' (' + (median[medianProperty] > webPageTestBudget[medianProperty]) ? chalk.red('>') : '<';
+          budgetMessages += ' ' + chalk.gray(webPageTestBudget[medianProperty]);
         }
       }
 
       if (output) {
-        gutil.log('Writing file: ' + output + '.');
+        gutil.log('Writing results in file  ' + chalk.magenta(output));
 
-        fs.writeFileSync(output, JSON.stringify(data));
+        fs.writeFileSync(output, JSON.stringify(data, null, 4));
       }
 
-      if (!budgetGoalsAreReached) {
-        callback(new gutil.PluginError(PLUGIN_NAME, 'Test for ' + url + ' \t  FAILED\n' +
-                                                    message + '\n' +
-                                                    'Summary: ' + data.data.summary));
-      } else {
-        gutil.log();
-        gutil.log('-----------------------------------------------\n' +
-                  'Test for ' + url + ' \t  PASSED\n' +
-                  '-----------------------------------------------\n\n');
-        gutil.log();
-        gutil.log(message);
-        gutil.log('Summary: ' + data.data.summary);
+      console.log('\n' +
+                  '-----------------------------------------------\n' +
+                  'Test for ' + chalk.yellow(url) + ' ' + (budgetGoalsAreReached ? chalk.green('PASSED') : chalk.red('FAILED')) + '\n' +
+                  '-----------------------------------------------' +
+                  budgetMessages + '\n' +
+                  '-------------------------------------------------------------------\n\n' +
+                  'Summary: ' + chalk.blue(data.data.summary) + '\n');
 
-        callback();
-      }
+      callback();
     };
 
     var webPageTest = new WebPageTest(wptInstance, key);
