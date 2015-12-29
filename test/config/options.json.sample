@@ -3,7 +3,7 @@
   "key": "WEBPAGETEST_API_KEY",
   "location": "ec2-eu-west-1:Chrome",
   "output": "test/output/results.json",
-  "timeout": 1800,
+  "timeout": 480,
   "budget": {
     "SpeedIndex": 5000
   }
