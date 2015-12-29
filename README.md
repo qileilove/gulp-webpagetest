@@ -11,14 +11,14 @@ Gulp task for web performance analysis via WebPageTest.
 ## Install
 
 ```
-$ npm install --save-dev gulp-babel babel-preset-es2015
+$ npm install --save-dev gulp-webpagetest
 ```
 
 ## Usage
 
 ```js
 var gulp = require('gulp'),
-    webpagetest = require('./tasks/webpagetest.js');
+    webpagetest = require('gulp-webpagetest');
 
 gulp.task('webpagetest', webpagetest({
   url: 'http://www.google.com',
