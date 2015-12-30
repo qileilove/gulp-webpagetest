@@ -68,7 +68,7 @@ First-hop Round Trip Time in ms *(REQUIRES 'custom' connectivity)*.
 #### options.location
 
 Type `String`
-Default value: 'Dulles:Chrome'
+Default value: `"Dulles:Chrome"`
 
 WebPageTest Location to test from.
 
@@ -138,6 +138,6 @@ URL to be tested **(MANDATORY option)**.
 #### options.wptInstance
 
 Type `String`
-Default value: 'www.webpagetest.org'
+Default value: `"www.webpagetest.org"`
 
 The WPT instance to conduct the tests with.
