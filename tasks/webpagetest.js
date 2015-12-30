@@ -245,6 +245,8 @@ var gulpWebPageTest = function(options) {
       callback();
     };
 
+    gutil.log('Testing ' + chalk.yellow(url) + ' via ' + chalk.magenta(wptInstance) + ' WPT instance');
+    
     var webPageTest = new WebPageTest(wptInstance, key);
 
     return webPageTest.runTest(url, webPageTestSettings, function(responseError, response) {
