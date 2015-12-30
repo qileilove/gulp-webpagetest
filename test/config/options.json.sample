@@ -1,6 +1,7 @@
 {
   "url": "http://www.google.com",
   "key": "WEBPAGETEST_API_KEY",
+  "firstViewOnly": true,
   "location": "Dulles:Chrome",
   "output": "test/output/results.json",
   "timeout": 1800,
@@ -59,9 +60,9 @@
     "score_progressive_jpeg": 0,
     "server_count": 0,
     "server_rtt": 0,
-    "SpeedIndex": 0,
+    "SpeedIndex": 2000,
     "titleTime": 0,
     "TTFB": 0,
-    "visualComplete": 0
+    "visualComplete": 1000
   }
 }
