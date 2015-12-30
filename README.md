@@ -35,116 +35,183 @@ gulp.task('webpagetest', webpagetest({
 }));
 ```
 
+---
+
 ### Options
 
 #### options.budget
 
-Type `Object`
+Type: `Object`
 Default value: `{}`
 
 Check the [budget part](#budget) to get the full list of budget goals you're able to set.
 
 #### options.connectivity
 
-Type `String`
-Default value: `"Cable"`
+> Type: `String`
+> Default value: `"Cable"`
 
 Connectivity type (DSL, Cable, FIOS, Dial, 3G, 3GFast, Native, custom).
 
 #### options.firstViewOnly
 
-Type `Boolean`
+Type: `Boolean`
 Default value: `false`
 
 Set to `true` to skip the Repeat View test.
 
 #### options.key
 
-Type `String`
+Type: `String`
 Default value: NONE
 
 The API Key for the public instance of WebPageTest. *Not needed if using a private instance of webpagetest.*
 
 #### options.latency
 
-Type `String`
+Type: `String`
 Default value: NONE
 
 First-hop Round Trip Time in ms *(REQUIRES 'custom' connectivity)*.
 
 #### options.location
 
-Type `String`
+Type: `String`
 Default value: `"Dulles:Chrome"`
 
 WebPageTest Location to test from.
 
 #### options.login
 
-Type `String`
+Type: `String`
 Default value: NONE
 
 User name to use for authenticated tests (HTTP authentication).
 
 #### options.output
 
-Type `String`
+Type: `String`
 Default value: NONE
 
 The file to output the JSON results to.
 
 #### options.packetLossRate
 
-Type `Integer`
+Type: `Integer`
 Default value: `0`
 
 Packet loss rate - percent of packets to drop *(REQUIRES 'custom' connectivity)*.
 
 #### options.password
 
-Type `String`
+Type: `String`
 Default value: NONE
 
 Password to use for authenticated tests (HTTP authentication).
 
 #### options.pollResults
 
-Type `Integer`
+Type: `Integer`
 Default value: `5`
 
 Poll for results after test is scheduled at every *n* seconds.
 
 #### options.runs
 
-Type `Integer`
+Type: `Integer`
 Default value: `1`
 
 Number of test runs (1-10 on the public instance).
 
 #### options.timeout
 
-Type `Integer`
+Type: `Integer`
 Default value: `60`
 
 Timeout (in seconds) for the tests to run.
 
 #### options.video
 
-Type `Integer`
+Type: `Integer`
 Default value: `1`
 
 Set to 1 to capture video (video is required for calculating Speed Index).
 
 #### options.url
 
-Type `String`
+Type: `String`
 Default value: NONE
 
 URL to be tested **(MANDATORY option)**.
 
 #### options.wptInstance
 
-Type `String`
+Type: `String`
 Default value: `"www.webpagetest.org"`
 
 The WPT instance to conduct the tests with.
+
+---
+
+### Budget
+
+All the budget properties are integers. The goal is reached is the result is **lower** than the property value set.
+
+- **adult_site**
+- **aft**
+- **bytesIn**
+- **bytesInDoc**
+- **bytesOut**
+- **bytesOutDoc**
+- **cached**
+- **connections**
+- **date**
+- **docCPUms**
+- **docCPUpct**
+- **docTime**
+- **domContentLoadedEventEnd**
+- **domContentLoadedEventStart**
+- **domElements**
+- **domTime**
+- **effectiveBps**
+- **effectiveBpsDoc**
+- **firstPaint**
+- **fixed_viewport**
+- **fullyLoaded**
+- **fullyLoadedCPUms**
+- **fullyLoadedCPUpct**
+- **gzip_savings**
+- **gzip_total**
+- **image_savings**
+- **image_total**
+- **lastVisualChange**
+- **loadEventEnd**
+- **loadEventStart**
+- **loadTime**
+- **minify_savings**
+- **minify_total**
+- **optimization_checked**
+- **render**
+- **requestsDoc**
+- **requestsFull**
+- **responses_200**
+- **responses_404**
+- **responses_other**
+- **result**
+- **run**
+- **score_cache**
+- **score_cdn**
+- **score_combine**
+- **score_compress**
+- **score_cookies**
+- **score_etags**
+- **score_gzip**
+- **score_keep-alive**
+- **score_minify**
+- **score_progressive_jpeg**
+- **server_count**
+- **server_rtt**
+- **SpeedIndex**
+- **titleTime**
+- **TTFB**
+- **visualComplete**
