@@ -37,6 +37,13 @@ gulp.task('webpagetest', webpagetest({
 
 ### Options
 
+#### options.budget
+
+Type `Object`
+Default value: `{}`
+
+Check the [budget part](#budget) to get the full list of budget goals you're able to set.
+
 #### options.connectivity
 
 Type `String`
