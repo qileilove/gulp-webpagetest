@@ -6,7 +6,7 @@
 [![Dependency Status](https://david-dm.org/ivangabriele/gulp-webpagetest.svg)](https://david-dm.org/ivangabriele/gulp-webpagetest)
 [![devDependency Status](https://david-dm.org/ivangabriele/gulp-webpagetest/dev-status.svg)](https://david-dm.org/ivangabriele/gulp-webpagetest#info=devDependencies)
 
-Gulp task for web performance analysis via WebPageTest.
+> Gulp task for web performance analysis and budgeting via WebPageTest.
 
 ## Install
 
