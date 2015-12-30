@@ -170,7 +170,6 @@ var gulpWebPageTest = function(options) {
     'gzip_total':                 options.budget['gzip_total'] || 0,
     'image_savings':              options.budget['image_savings'] || 0,
     'image_total':                options.budget['image_total'] || 0,
-    // isResponsive:               options.budget['isResponsive'] || -1,
     'lastVisualChange':           options.budget['lastVisualChange'] || 0,
     'loadEventEnd':               options.budget['loadEventEnd'] || 0,
     'loadEventStart':             options.budget['loadEventStart'] || 0,
@@ -213,18 +212,19 @@ var gulpWebPageTest = function(options) {
 
       for (medianProperty in webPageTestBudget) {
         if (!webPageTestBudget[medianProperty]) {
-          budgetMessages += '\n' + chalk.gray('[--]');
+          budgetMessages += '\n[' + chalk.gray('--') + ']';
         } else if (median[medianProperty] > webPageTestBudget[medianProperty]) {
           budgetGoalsAreReached = false;
-          budgetMessages += chalk.red('[KO]');
+          budgetMessages += '\n[' + chalk.red('KO') + ']';
         } else if (webPageTestBudget[medianProperty]) {
-          budgetMessages += chalk.green('[OK]');
+          budgetMessages += '\n[' + chalk.green('OK') + ']';
         }
 
         budgetMessages += ' ' + medianProperty + ': ' + median[medianProperty];
         if (webPageTestBudget[medianProperty]) {
-          budgetMessages += ' (' + (median[medianProperty] > webPageTestBudget[medianProperty]) ? chalk.red('>') : '<';
-          budgetMessages += ' ' + chalk.gray(webPageTestBudget[medianProperty]);
+          budgetMessages += chalk.blue(' (');
+          budgetMessages += (median[medianProperty] > webPageTestBudget[medianProperty]) ? chalk.red('>') : chalk.blue('<');
+          budgetMessages += chalk.blue(' ' + webPageTestBudget[medianProperty] + ')');
         }
       }
 
