@@ -252,6 +252,7 @@ var gulpWebPageTest = function(options) {
     return webPageTest.runTest(url, webPageTestSettings, function(responseError, response) {
       if (responseError) {
         var errorMessage;
+        console.log(responseError);
         
         if (responseError.error) {
           if (responseError.error.code === 'TIMEOUT') {
