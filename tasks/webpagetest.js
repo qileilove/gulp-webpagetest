@@ -48,7 +48,7 @@ var gulpWebPageTest = function(options) {
   /**
    * WebPageTest API settings.
    * @see https://sites.google.com/a/webpagetest.org/docs/advanced-features/webpagetest-restful-apis
-   * 
+   *
    * @property {string}  connectivity   Connectivity type (DSL, Cable, FIOS, Dial, 3G, 3GFast, Native, custom).
    * @property {boolean} firstViewOnly  Set to 1 to skip the Repeat View test. <fvonly>
    * @property {string}  latency        First-hop Round Trip Time in ms (used when specifying a custom connectivity profile).
@@ -79,7 +79,7 @@ var gulpWebPageTest = function(options) {
    * WebPageTest Budget settings.
    *
    * @todo What to do with isResponsive ?
-   * 
+   *
    * @property {integer} adult_site
    * @property {integer} aft
    * @property {integer} bytesIn
@@ -202,7 +202,7 @@ var gulpWebPageTest = function(options) {
     'TTFB':                       options.budget['TTFB'] || 0,
     'visualComplete':             options.budget['visualComplete'] || 0
   };
-  
+
   return function(callback) {
     var processData = function(data, callback) {
       var budgetGoalsAreReached = true,
@@ -231,7 +231,7 @@ var gulpWebPageTest = function(options) {
       if (output) {
         gutil.log('Writing results in file  ' + chalk.magenta(output));
 
-        fs.writeFileSync(output, JSON.stringify(data, null, 4));
+        fs.writeFileSync(output, JSON.stringify(data, null, 2));
       }
 
       console.log('\n' +
@@ -246,14 +246,14 @@ var gulpWebPageTest = function(options) {
     };
 
     gutil.log('Testing ' + chalk.yellow(url) + ' via ' + chalk.magenta(wptInstance) + ' WPT instance');
-    
+
     var webPageTest = new WebPageTest(wptInstance, key);
 
     return webPageTest.runTest(url, webPageTestSettings, function(responseError, response) {
       if (responseError) {
         var errorMessage;
         console.log(responseError);
-        
+
         if (responseError.error) {
           if (responseError.error.code === 'TIMEOUT') {
             errorMessage = 'Test ' + responseError.error.testId + ' has timed out.' +
