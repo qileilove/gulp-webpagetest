@@ -31,6 +31,9 @@ gulp.task('webpagetest', webpagetest({
   budget: {
     SpeedIndex: 1000,
     visualComplete: 1000
+  },
+  callback: function() {
+    console.log('WPT test done !');
   }
 }));
 ```
@@ -45,6 +48,13 @@ Type: `Object`
 Default value: `{}`
 
 Check the [budget part](#budget) to get the full list of budget goals you're able to set.
+
+#### options.callback
+
+Type: `Function`
+Default value: NONE
+
+Function to call back once the test is finished.
 
 #### options.connectivity
 
@@ -157,61 +167,61 @@ The WPT instance to conduct the tests with.
 
 All the budget properties are `integers`. The goal is reached is the result is **lower** than the property value set.
 
-- **adult_site**: 
-- **aft**: 
-- **bytesIn**: 
-- **bytesInDoc**: 
-- **bytesOut**: 
-- **bytesOutDoc**: 
-- **cached**: 
-- **connections**: 
-- **date**: 
-- **docCPUms**: 
-- **docCPUpct**: 
-- **docTime**: 
-- **domContentLoadedEventEnd**: 
-- **domContentLoadedEventStart**: 
-- **domElements**: 
-- **domTime**: 
-- **effectiveBps**: 
-- **effectiveBpsDoc**: 
-- **firstPaint**: 
-- **fixed_viewport**: 
-- **fullyLoaded**: 
-- **fullyLoadedCPUms**: 
-- **fullyLoadedCPUpct**: 
-- **gzip_savings**: 
-- **gzip_total**: 
-- **image_savings**: 
-- **image_total**: 
-- **lastVisualChange**: 
-- **loadEventEnd**: 
-- **loadEventStart**: 
-- **loadTime**: 
-- **minify_savings**: 
-- **minify_total**: 
-- **optimization_checked**: 
-- **render**: 
-- **requestsDoc**: 
-- **requestsFull**: 
-- **responses_200**: 
-- **responses_404**: 
-- **responses_other**: 
-- **result**: 
-- **run**: 
-- **score_cache**: 
-- **score_cdn**: 
-- **score_combine**: 
-- **score_compress**: 
-- **score_cookies**: 
-- **score_etags**: 
-- **score_gzip**: 
+- **adult_site**:
+- **aft**:
+- **bytesIn**:
+- **bytesInDoc**:
+- **bytesOut**:
+- **bytesOutDoc**:
+- **cached**:
+- **connections**:
+- **date**:
+- **docCPUms**:
+- **docCPUpct**:
+- **docTime**:
+- **domContentLoadedEventEnd**:
+- **domContentLoadedEventStart**:
+- **domElements**:
+- **domTime**:
+- **effectiveBps**:
+- **effectiveBpsDoc**:
+- **firstPaint**:
+- **fixed_viewport**:
+- **fullyLoaded**:
+- **fullyLoadedCPUms**:
+- **fullyLoadedCPUpct**:
+- **gzip_savings**:
+- **gzip_total**:
+- **image_savings**:
+- **image_total**:
+- **lastVisualChange**:
+- **loadEventEnd**:
+- **loadEventStart**:
+- **loadTime**:
+- **minify_savings**:
+- **minify_total**:
+- **optimization_checked**:
+- **render**:
+- **requestsDoc**:
+- **requestsFull**:
+- **responses_200**:
+- **responses_404**:
+- **responses_other**:
+- **result**:
+- **run**:
+- **score_cache**:
+- **score_cdn**:
+- **score_combine**:
+- **score_compress**:
+- **score_cookies**:
+- **score_etags**:
+- **score_gzip**:
 - **score_keep-: alive**
-- **score_minify**: 
-- **score_progressive_jpeg**: 
-- **server_count**: 
-- **server_rtt**: 
+- **score_minify**:
+- **score_progressive_jpeg**:
+- **server_count**:
+- **server_rtt**:
 - **SpeedIndex**: SpeedIndex
-- **titleTime**: 
-- **TTFB**: 
-- **visualComplete**: 
+- **titleTime**:
+- **TTFB**:
+- **visualComplete**:

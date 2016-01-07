@@ -8,12 +8,6 @@ var _           = require('lodash'),
     http        = require('http'),
     WebPageTest = require('webpagetest');
 
-function prefixStream(prefixText) {
-  var stream = through();
-  stream.write(prefixText);
-  return stream;
-}
-
 var gulpWebPageTest = function(options) {
   if (!options) {
     throw new gutil.PluginError(PLUGIN_NAME, 'When calling webpagetest(options), options parameter is MANDATORY.');
@@ -38,8 +32,10 @@ var gulpWebPageTest = function(options) {
   var key         = options.key || '',
       output      = options.output || '',
       url         = options.url,
+      wptCallback = options.callback,
       wptInstance = options.wptInstance || 'www.webpagetest.org';
 
+  delete options.callback;
   delete options.key;
   delete options.output;
   delete options.url;
@@ -242,10 +238,18 @@ var gulpWebPageTest = function(options) {
                   '-------------------------------------------------------------------\n\n' +
                   'Summary: ' + chalk.blue(data.data.summary) + '\n');
 
+      if (wptCallback) {
+        console.log('-----------------------------------------------\n');
+        console.log('Callback\n');
+        console.log('-----------------------------------------------\n');
+        
+        wptCallback();
+      }
+
       callback();
     };
 
-    gutil.log('Testing ' + chalk.yellow(url) + ' via ' + chalk.magenta(wptInstance) + ' WPT instance');
+    gutil.log('Testing ' + chalk.yellow(url) + ' via ' + chalk.magenta(wptInstance));
 
     var webPageTest = new WebPageTest(wptInstance, key);
 
@@ -278,7 +282,6 @@ var gulpWebPageTest = function(options) {
       }
     });
   };
-
 };
 
 module.exports = gulpWebPageTest;
