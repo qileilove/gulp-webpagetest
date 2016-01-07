@@ -28,6 +28,7 @@ var gulpWebPageTest = function(options) {
   // key: API Key.
   // output: The file to output the JSON results to.
   // url: URL to be tested.
+  // wptCallback: The function to be called once the url has been tested.
   // wptInstance: The WPT instance to conduct the tests with.
   var key         = options.key || '',
       output      = options.output || '',
