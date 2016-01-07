@@ -236,13 +236,10 @@ var gulpWebPageTest = function(options) {
                   '-----------------------------------------------' +
                   budgetMessages + '\n' +
                   '-------------------------------------------------------------------\n\n' +
-                  'Summary: ' + chalk.blue(data.data.summary) + '\n');
+                  'Summary: ' + chalk.blue(data.data.summary) + '\n\n');
 
       if (wptCallback) {
-        console.log('-----------------------------------------------\n');
-        console.log('Callback\n');
-        console.log('-----------------------------------------------\n');
-        
+        gutil.log('Executing your callback function\n');
         wptCallback();
       }
 
