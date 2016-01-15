@@ -300,7 +300,7 @@ var gulpWebPageTest = function(options) {
         var statusCode;
 
         return webPageTest.getTestStatus(testId, function(responseError, response) {
-          process.stdout.write("\r\x1b[K");
+          process.stdout.write('\r\x1b[K');
           process.stdout.write('[' + chalk.gray(getTime()) + '] ' + response.statusText);
 
           if (response.statusCode === 200) {
