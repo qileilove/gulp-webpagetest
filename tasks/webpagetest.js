@@ -222,7 +222,8 @@ var gulpWebPageTest = function(options) {
         if (responseError.error) {
           if (responseError.error.code === 'TIMEOUT') {
             errorMessage = 'Test ' + responseError.error.testId + ' has timed out.' +
-                           'You can still view the results online at ' + wptInstance + '/results.php?test=' + responseError.error.testId + '.';
+                           'You can still view the results online at ' +
+                           wptInstance + '/results.php?test=' + responseError.error.testId + '.';
           } else {
             errorMessage = 'Test ' + responseError.error.testId + ' has errored. Error code: ' + responseError.error.code + '.';
           }
@@ -275,7 +276,8 @@ var gulpWebPageTest = function(options) {
 
       console.log('\n' +
                   '-------------------------------------------------------------------\n' +
-                  'Test for ' + chalk.yellow(url) + ' ' + (budgetGoalsAreReached ? chalk.green('PASSED') : chalk.red('FAILED')) + '\n' +
+                  'Test for ' + chalk.yellow(url) + ' ' +
+                  (budgetGoalsAreReached ? chalk.green('PASSED') : chalk.red('FAILED')) + '\n' +
                   '-------------------------------------------------------------------' +
                   budgetMessages + '\n' +
                   '-------------------------------------------------------------------\n\n' +
