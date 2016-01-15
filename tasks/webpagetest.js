@@ -3,6 +3,7 @@ const PLUGIN_NAME = 'gulp-webpagetest';
 var _           = require('lodash'),
     chalk       = require('chalk'),
     fs          = require('fs'),
+    getTime     = require('../utils/getTime'),
     gulp        = require('gulp'),
     gutil       = require('gulp-util'),
     http        = require('http'),
@@ -46,30 +47,42 @@ var gulpWebPageTest = function(options) {
    * WebPageTest API settings.
    * @see https://sites.google.com/a/webpagetest.org/docs/advanced-features/webpagetest-restful-apis
    *
+   * @property {boolean} blockAds       Block ads defined by adblockrules.org.
+   * @property {boolean} clearCerts     Clear OS SSL certificate caches.
    * @property {string}  connectivity   Connectivity type (DSL, Cable, FIOS, Dial, 3G, 3GFast, Native, custom).
+   * @property {boolean} emulateMobile  Emuldates mobile browser on Chrome :
+                                        Chrome mobile user agent, 640x960 screen, 2x scaling and fixed viewport.
    * @property {boolean} firstViewOnly  Set to 1 to skip the Repeat View test. <fvonly>
+   * @property {string}  label          Label for the test.
    * @property {string}  latency        First-hop Round Trip Time in ms (used when specifying a custom connectivity profile).
    * @property {string}  location       Location to test from.
    * @property {string}  login          User name to use for authenticated tests (HTTP authentication).
    * @property {integer} packetLossRate Packet loss rate - percent of packets to drop (NEED 'custom' connectivity). <plr>
    * @property {string}  password       Password to use for authenticated tests (HTTP authentication).
    * @property {string}  pollResults    Poll for results after test is scheduled at every <interval> seconds.
+   * @property {boolean} private        Keep the test hidden from the test log.
    * @property {integer} runs           Number of test runs (1-10 on the public instance).
    * @property {integer} timeout        Timeout (in seconds) for the tests to run.
    * @property {boolean} video          Set to true to capture video (video is required for calculating Speed Index).
    */
   var webPageTestSettings = {
+    blockAds:           options.blockAds       || false,
+    clearCerts:         options.clearCerts     || false,
     connectivity:       options.connectivity   || 'Cable',
+    emulateMobile:      options.emulateMobile  || false,
     firstViewOnly:      options.firstViewOnly  || false,
+    label:              options.label          || '',
     latency:            options.latency        || '',
     location:           options.location       || 'Dulles:Chrome',
     login:              options.login          || '',
     packetLossRate:     options.packetLossRate || 0,
-    pollResults:        options.pollResults    || 5,
     password:           options.password       || '',
+    pollResults:        options.pollResults    || 5,
+    private:            options.private        || false,
     runs:               options.runs           || 1,
-    timeout:            options.timeout        || 60,
-    video:              options.video          || true,
+    // timeout:            options.timeout        || 60,
+    timeout:            1,
+    video:              options.video          || true
   };
 
   /**
@@ -201,9 +214,38 @@ var gulpWebPageTest = function(options) {
   };
 
   return function(callback) {
+    var checkResults = function(responseError, response, callback) {
+      if (responseError) {
+        var errorMessage;
+        console.log(responseError);
+
+        if (responseError.error) {
+          if (responseError.error.code === 'TIMEOUT') {
+            errorMessage = 'Test ' + responseError.error.testId + ' has timed out.' +
+                           'You can still view the results online at ' + wptInstance + '/results.php?test=' + responseError.error.testId + '.';
+          } else {
+            errorMessage = 'Test ' + responseError.error.testId + ' has errored. Error code: ' + responseError.error.code + '.';
+          }
+        } else {
+          errorMessage = responseError.statusText || (responseError.code + ' ' + responseError.message);
+        }
+
+        callback(new gutil.PluginError(PLUGIN_NAME, errorMessage));
+      } else if (response.statusCode === 200) {
+        if (response.data.successfulFVRuns <= 0) {
+          callback(new gutil.PluginError(PLUGIN_NAME, 'Test ' + response.data.testId + ' was unable to complete.' +
+                                                      'Please see ' + response.data.summary + ' for more details.'));
+        } else {
+          processData(response.data, callback);
+        }
+      } else {
+        callback(new gutil.PluginError(PLUGIN_NAME, response.statusText));
+      }
+    };
+
     var processData = function(data, callback) {
       var budgetGoalsAreReached = true,
-          median = webPageTestSettings.firstViewOnly ? data.data.median.firstView : data.data.median.repeatView,
+          median = webPageTestSettings.firstViewOnly ? data.median.firstView : data.median.repeatView,
           medianProperty,
           budgetMessages = '';
 
@@ -232,12 +274,12 @@ var gulpWebPageTest = function(options) {
       }
 
       console.log('\n' +
-                  '-----------------------------------------------\n' +
+                  '-------------------------------------------------------------------\n' +
                   'Test for ' + chalk.yellow(url) + ' ' + (budgetGoalsAreReached ? chalk.green('PASSED') : chalk.red('FAILED')) + '\n' +
-                  '-----------------------------------------------' +
+                  '-------------------------------------------------------------------' +
                   budgetMessages + '\n' +
                   '-------------------------------------------------------------------\n\n' +
-                  'Summary: ' + chalk.blue(data.data.summary) + '\n\n');
+                  'Summary: ' + chalk.blue(data.summary) + '\n');
 
       if (wptCallback) {
         gutil.log('Executing your callback function\n');
@@ -252,32 +294,28 @@ var gulpWebPageTest = function(options) {
     var webPageTest = new WebPageTest(wptInstance, key);
 
     return webPageTest.runTest(url, webPageTestSettings, function(responseError, response) {
-      if (responseError) {
-        var errorMessage;
-        console.log(responseError);
+      var testId = responseError.error.testId;
 
-        if (responseError.error) {
-          if (responseError.error.code === 'TIMEOUT') {
-            errorMessage = 'Test ' + responseError.error.testId + ' has timed out.' +
-                           'You can still view the results online at ' + wptInstance + '/results.php?test=' + responseError.error.testId + '.';
+      var checkStatus = function(callback) {
+        var statusCode;
+
+        return webPageTest.getTestStatus(testId, function(responseError, response) {
+          process.stdout.write("\r\x1b[K");
+          process.stdout.write('[' + chalk.gray(getTime()) + '] ' + response.statusText);
+
+          if (response.statusCode === 200) {
+            return webPageTest.getTestResults(testId, function(responseError, response) {
+              checkResults(responseError, response, callback);
+            });
           } else {
-            errorMessage = 'Test ' + responseError.error.testId + ' has errored. Error code: ' + responseError.error.code + '.';
+            setTimeout(function() {
+              checkStatus(callback);
+            }, 1000);
           }
-        } else {
-          errorMessage = responseError.statusText || (responseError.code + ' ' + responseError.message);
-        }
+        });
+      };
 
-        callback(new gutil.PluginError(PLUGIN_NAME, errorMessage));
-      } else if (response.statusCode === 200) {
-        if (response.data.successfulFVRuns <= 0) {
-          callback(new gutil.PluginError(PLUGIN_NAME, 'Test ' + response.data.testId + ' was unable to complete.' +
-                                                      'Please see ' + response.data.summary + ' for more details.'));
-        } else {
-          processData(response, callback);
-        }
-      } else {
-        callback(new gutil.PluginError(PLUGIN_NAME, response.statusText));
-      }
+      return checkStatus(callback);
     });
   };
 };

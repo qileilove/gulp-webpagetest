@@ -3,7 +3,7 @@ var gulp        = require('gulp'),
     webpagetest = require('./tasks/webpagetest.js');
 
 options.callback = function() {
-  console.log('WPT test done !');
+  console.log('WPT test done !\n');
 };
 
 gulp.task('test', webpagetest(options));
