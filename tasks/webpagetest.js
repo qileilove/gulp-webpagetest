@@ -304,6 +304,7 @@ var gulpWebPageTest = function(options) {
           process.stdout.write('[' + chalk.gray(getTime()) + '] ' + response.statusText);
 
           if (response.statusCode === 200) {
+            process.stdout.write('\n');
             return webPageTest.getTestResults(testId, function(responseError, response) {
               checkResults(responseError, response, callback);
             });
