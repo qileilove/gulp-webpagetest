@@ -124,14 +124,13 @@ var gulpWebPageTest = function(options) {
    * @property {integer} minify_total
    * @property {integer} optimization_checked
    * @property {integer} render
-   * @property {array}   requests                   DISABLED
    * @property {integer} requestsDoc
    * @property {integer} requestsFull
    * @property {integer} responses_200
    * @property {integer} responses_404
    * @property {integer} responses_other
    * @property {integer} result
-   * @property {integer} run
+   * @property {integer} run                        DISABLED
    * @property {integer} score_cache
    * @property {integer} score_cdn
    * @property {integer} score_combine
@@ -147,7 +146,6 @@ var gulpWebPageTest = function(options) {
    * @property {integer} SpeedIndex
    * @property {integer} titleTime
    * @property {integer} TTFB
-   * @property {array}   videoFrames                DISABLED
    * @property {integer} visualComplete
    */
   var webPageTestBudget = {
@@ -192,7 +190,6 @@ var gulpWebPageTest = function(options) {
     responses_404:              options.budget.responses_404 || 0,
     responses_other:            options.budget.responses_other || 0,
     result:                     options.budget.result || 0,
-    run:                        options.budget.run || 0,
     score_cache:                options.budget.score_cache || 0,
     score_cdn:                  options.budget.score_cdn || 0,
     score_combine:              options.budget.score_combine || 0,
@@ -282,7 +279,7 @@ var gulpWebPageTest = function(options) {
                   'Summary: ' + chalk.blue(data.summary) + '\n');
 
       if (wptCallback) {
-        gutil.log('Executing your callback function\n');
+        gutil.log('Executing callback function');
         wptCallback();
       }
 
